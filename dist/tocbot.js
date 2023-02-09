@@ -13,6 +13,7 @@
  * This file is responsible for building the DOM and updating DOM state.
  *
  * @author Tim Scanlin
+ * @modified by a human online llc
  */
 
 module.exports = function (options) {
@@ -81,19 +82,13 @@ module.exports = function (options) {
    */
   function createLink (data) {
     var item = document.createElement('li')
-    var a = document.createElement('a')
+    var a = document.createElement('input')
+    a.type = "checkbox";
+    
     if (options.listItemClass) {
       item.setAttribute('class', options.listItemClass)
     }
-
-    if (options.onClick) {
-      a.onclick = options.onClick
-    }
-
-    if (options.includeTitleTags) {
-      a.setAttribute('title', data.textContent)
-    }
-
+    /*
     if (options.includeHtml && data.childNodes.length) {
       forEach.call(data.childNodes, function (node) {
         a.appendChild(node.cloneNode(true))
@@ -102,11 +97,26 @@ module.exports = function (options) {
       // Default behavior.
       a.textContent = data.textContent
     }
-    a.setAttribute('href', options.basePath + '#' + data.id)
+    */
+    
+    a.value = (data.id)
+    a.setAttribute('data-related-item',data.id)
+    a.name = data.textContent
+    
     a.setAttribute('class', options.linkClass +
       SPACE_CHAR + 'node-name--' + data.nodeName +
       SPACE_CHAR + options.extraLinkClasses)
+    
+    if (options.onClick) {
+      a.onclick = options.onClick
+    }
+    
+    var label = document.createElement('label')
+    label.htmlFor = data.id
+    label.appendChild(document.createTextNode(data.textContent))
+    
     item.appendChild(a)
+    item.appendChild(label)
     return item
   }
 
