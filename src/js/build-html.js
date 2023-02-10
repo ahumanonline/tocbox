@@ -92,7 +92,7 @@ module.exports = function (options) {
     
     a.value = (data.id)
     a.name = data.textContent
-    
+    a.checked = true
     a.setAttribute('class', options.linkClass +
       SPACE_CHAR + 'node-name--' + data.nodeName +
       SPACE_CHAR + options.extraLinkClasses)
@@ -103,6 +103,7 @@ module.exports = function (options) {
     
     var label = document.createElement('label')
     label.htmlFor = data.id
+    label.setAttribute('class','text-primary-900 dark:text-accent-400 font-medium')
     label.appendChild(document.createTextNode(data.textContent))
     
     item.appendChild(a)
